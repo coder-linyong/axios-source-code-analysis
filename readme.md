@@ -1149,6 +1149,10 @@ CancelToken.prototype.unsubscribe = function unsubscribe(listener) {
 }
 ```
 <a name="oO6sn"></a>
+## 取消判断依据
+在axios建立并发送请求的过程中判断是否取消请求的依据是：
+1. 判断`CancelToken`实例的`reason`属性是否有值
+2. `config.signal && config.signal.aborted`是否为真
 ## 流程图
 ![取消请求.png](流程图/取消请求.png)
 <a name="wx1t4"></a>
