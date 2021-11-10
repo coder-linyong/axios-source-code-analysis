@@ -52,7 +52,7 @@ webstrom的调试器比浏览器的调试器要好用（用过的都说好），
 ![webstrom调试器.gif](./流程图/webstrom调试器.gif)
 <a name="wWTjX"></a>
 # 大致结构
-![axios-instance.e915a96a.png](流程图/axios对象.png)
+![axios-instance.e915a96a.png](./流程图/axios对象.png)
 <a name="vpBGO"></a>
 # 看源码前的问题
 看源码不能够只是为了看而看，这样容易迷失方向，我们应该带着问题去看源码，以这些问题为导向，更不容易看不下去。<br />这次看源码主要方向是：
@@ -1191,7 +1191,7 @@ axios.interceptors.response.use(function (response) {
 ![发送请求过程.png](./流程图/发送请求过程.png)
 <a name="YPzeS"></a>
 # 完整流程图
-![完整流程.png](流程图/完整流程.png)
+![完整流程.png](./流程图/完整流程.png)
 <a name="OZ4v9"></a>
 # Axios小技巧
 
