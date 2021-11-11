@@ -11,7 +11,7 @@
 1. 右键该文件
 1. 点击“调试client.js”
 
-![node环境.gif](流程图/node环境.gif)
+![node环境.gif](./流程图/node环境.gif)
 <a name="hsATx"></a>
 ## 浏览器环境
 找到文件`axios/examples/server.js`，修改代码如下：
@@ -49,17 +49,17 @@ webstrom的调试器比浏览器的调试器要好用（用过的都说好），
 1. 控制条输出内容中ctrl+shift+鼠标左键点击[http://localhost:8080](http://localhost:300)（一定要点这个，点下面那个没用）
 1. 在webstrom中调试
 
-![webstrom调试器.gif](./流程图/webstrom调试器.gif)
+![webstrom调试器.gif](流程图/webstrom调试器.gif)
 <a name="wWTjX"></a>
 # 大致结构
-![axios-instance.e915a96a.png](./流程图/axios对象.png)
+![axios-instance.e915a96a.png](流程图/axios对象.png)
 <a name="vpBGO"></a>
 # 看源码前的问题
 看源码不能够只是为了看而看，这样容易迷失方向，我们应该带着问题去看源码，以这些问题为导向，更不容易看不下去。<br />这次看源码主要方向是：
 
 1. 为什么axios既是对象又是函数 
 1. 一个请求如何发送的
-1. 请求拦截如何实现的
+1. 拦截器如何实现的
 1. 取消功能如何实现的
 1. axios兼容浏览器和node的原因
 1. 为什么客户端支持防御XSRF（CSRF ）
@@ -106,7 +106,11 @@ function createInstance(defaultConfig) {
 }
 ```
 `instance.create方`法运用了工厂模式，返回一个新的`axios`对象。
-> **工厂方法模式**（英语：Factory method pattern）是一种实现了“工厂”概念的[面向对象](https://zh.wikipedia.org/wiki/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1) [设计模式](https://zh.wikipedia.org/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F_(%E8%AE%A1%E7%AE%97%E6%9C%BA)) 。就像其他[创建型模式](https://zh.wikipedia.org/wiki/%E5%89%B5%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F) 一样，它也是处理在不指定[对象](https://zh.wikipedia.org/wiki/%E5%AF%B9%E8%B1%A1_(%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6)) 具体[类型](https://zh.wikipedia.org/wiki/%E7%B1%BB_(%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6)) 的情况下创建对象的问题。工厂方法模式的实质是“定义一个创建对象的接口，但让实现这个接口的类来决定实例化哪个类。工厂方法让类的实例化推迟到子类中进行。”
+> **工厂方法模式**（英语：Factory method pattern）是一种实现了“工厂”概念的[面向对象](https://zh.wikipedia.org/wiki/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1)
+> [设计模式](https://zh.wikipedia.org/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F_(%E8%AE%A1%E7%AE%97%E6%9C%BA)) 。
+> 就像其他[创建型模式](https://zh.wikipedia.org/wiki/%E5%89%B5%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F) 一样，它也是处理在不指定[对象](https://zh.wikipedia.org/wiki/%E5%AF%B9%E8%B1%A1_(%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6))
+> 具体[类型](https://zh.wikipedia.org/wiki/%E7%B1%BB_(%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6))
+> 的情况下创建对象的问题。工厂方法模式的实质是“定义一个创建对象的接口，但让实现这个接口的类来决定实例化哪个类。工厂方法让类的实例化推迟到子类中进行。”
 
 <a name="XBdpS"></a>
 ## mergeConfig方法
@@ -548,7 +552,7 @@ while (responseInterceptorChain.length) {
 
 return promise
 ```
-最终流程图如下：<br />![取消请求.png](./流程图/取消请求.png)
+最终流程图如下：<br />![拦截器.png](./流程图/拦截器.png)
 <a name="HBoDv"></a>
 ## getUri方法
 `getUri`方法很简单，就是合并配置，然后返回构建的uri：
@@ -1148,13 +1152,15 @@ CancelToken.prototype.unsubscribe = function unsubscribe(listener) {
   }
 }
 ```
-<a name="oO6sn"></a>
+<a name="L44hc"></a>
 ## 取消判断依据
 在axios建立并发送请求的过程中判断是否取消请求的依据是：
+
 1. 判断`CancelToken`实例的`reason`属性是否有值
-2. `config.signal && config.signal.aborted`是否为真
+1. `config.signal && config.signal.aborted`是否为真
+<a name="oO6sn"></a>
 ## 流程图
-![取消请求.png](流程图/取消请求.png)
+![取消请求.png](./流程图/取消请求.png)
 <a name="wx1t4"></a>
 # 拦截器结构和流程
 拦截器由请求拦截和响应拦截组成，在Axios实例中是一个请求拦截器对象：
@@ -1189,7 +1195,7 @@ axios.interceptors.response.use(function (response) {
     return Promise.reject(error);
   });
 ```
-调用`InterceptorManager.prototype.use()`方法会在拦截器实例上添加一个对象，这个对象包含期约的解决和拒接函数（具体实现请看拦截器构造函数那块内容）。最后在`Axios.prototype.request`方法中将请求拦截、分发请求和响应拦截组成期约链（具体实现看期约链那块内容），最后由`promise = Promise.resolve(config)`开始这个期约链。具体流程图如下：<br />![拦截器.png](https://cdn.nlark.com/yuque/0/2021/png/1640357/1636516547788-cfd8a3e0-cf41-4169-8160-18bd36e768ba.png#clientId=u499d0c20-f631-4&from=paste&height=737&id=ue92b6484&margin=%5Bobject%20Object%5D&name=%E6%8B%A6%E6%88%AA%E5%99%A8.png&originHeight=1473&originWidth=2948&originalType=binary&ratio=1&size=177131&status=done&style=none&taskId=u44032f59-e4b3-4eb5-939f-955d69ccbd0&width=1474)
+调用`InterceptorManager.prototype.use()`方法会在拦截器实例上添加一个对象，这个对象包含期约的解决和拒接函数（具体实现请看拦截器构造函数那块内容）。最后在`Axios.prototype.request`方法中将请求拦截、分发请求和响应拦截组成期约链（具体实现看期约链那块内容），最后由`promise = Promise.resolve(config)`开始这个期约链。具体流程图如下：<br />![拦截器.png](https://cdn.nlark.com/yuque/0/2021/png/1640357/1636596816484-7b1ee151-22a8-491f-aede-87cb687de03b.png#clientId=uc8a7bd55-b8dc-4&from=paste&height=679&id=u37f74a10&margin=%5Bobject%20Object%5D&name=%E6%8B%A6%E6%88%AA%E5%99%A8.png&originHeight=1357&originWidth=2859&originalType=binary&ratio=1&size=189146&status=done&style=none&taskId=u886fc0a7-9284-4406-b660-d1139aca304&width=1429.5)
 <a name="Icb5Q"></a>
 # 发送请求的流程
 ![发送请求过程.png](./流程图/发送请求过程.png)
@@ -1202,6 +1208,7 @@ axios.interceptors.response.use(function (response) {
 1. axios默认请求方式是`get`，所以如果是get请求，则可以不配置
 1. axios对于请求方式会统一转化为小写，所以请求方式写法可以狂放不羁，如：`get`、`Get`、`GEt`、`GET`、`GeT`（为了好看，还是统一小写比较好）
 1. 请求的数据是`FormData`或者发送的请求没有data选项时，`Content-Type`会被删除，因为`Content-Type`在这两种情况下是没有意义的
+1. 请求拦截器先添加的会后执行，反之，后添加的会先执行。其原因是在遍历请求拦截器处理函数生成期约链时使用`unshift()`方法
 
 
 
